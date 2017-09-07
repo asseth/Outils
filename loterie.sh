@@ -13,11 +13,12 @@
 
 LANG=C
 LC_ALL=C
-BC_LINE_LENGTH=0
+
+export BC_LINE_LENGTH=0
 
 #export DEBUG=1
 
-export GETHEXEC="geth attach $HOME/.local/share/io.parity.ethereum/jsonrpc.ipc --exec"
+export GETHEXEC="geth attach --exec"
 
 
 debug () {
@@ -35,9 +36,25 @@ then
   exit 1
 fi
 
+echo | $GETHEXEC "" &> /dev/null
+if [ $? -ne 0 ]
+then
+  echo Node Ethereum inaccessible
+  exit 2
+fi
+
 
 export BLKNBR=$1
 shift
+
+$GETHEXEC "eth.getBlock($BLKNBR)" 2> /dev/null \
+| grep -q "^null$"
+if [ $? -eq 0 ]
+then
+  echo Bloc $BLKNBR inexistant
+  exit 3
+fi
+
 
 BLOCKH=`$GETHEXEC 'eth.getBlock('$BLKNBR').hash' \
         | sed 's/^"0x\(.*\)"/\1/' \
