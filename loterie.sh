@@ -18,7 +18,7 @@ export BC_LINE_LENGTH=0
 
 #export DEBUG=1
 
-export GETHEXEC="geth attach --exec"
+export GETHEXEC="geth attach $HOME/.local/share/io.parity.ethereum/jsonrpc.ipc --exec"
 
 
 debug () {
