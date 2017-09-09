@@ -18,7 +18,8 @@ export BC_LINE_LENGTH=0
 
 #export DEBUG=1
 
-export GETHEXEC="geth attach $HOME/.local/share/io.parity.ethereum/jsonrpc.ipc --exec"
+#export GETHEXEC="geth attach $HOME/.local/share/io.parity.ethereum/jsonrpc.ipc --exec"
+export GETHEXEC="geth attach --exec"
 
 
 debug () {
@@ -64,7 +65,7 @@ debug $BLOCKH 'eth.getBlock('$BLKNBR').hash'
 i=0
 for m in $*
 do
-  MAILH[$i]=`$GETHEXEC 'web3.sha3("Print('$m')")' \
+  MAILH[$i]=`$GETHEXEC 'web3.sha3("'$m'")' \
              | sed 's/^"0x\(.*\)"/\1/' \
              | tr a-f A-F`
   debug ${MAILH[$i]} $m
