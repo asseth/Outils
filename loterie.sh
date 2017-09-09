@@ -21,6 +21,9 @@ export BC_LINE_LENGTH=0
 export GETHEXEC="geth attach $HOME/.local/share/io.parity.ethereum/jsonrpc.ipc --exec"
 #export GETHEXEC="geth attach --exec"
 
+FMT=cat
+[ "$DEBUG" = 1 ] || FMT='sed -e s/.*\ //g'
+
 
 debug () {
 
@@ -75,6 +78,7 @@ do
         -e "s/$/ $m/"
   i=$[$i+1]
 done \
-| sort -n
+| sort -n \
+| eval "$FMT"
 
 
