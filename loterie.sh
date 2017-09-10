@@ -65,18 +65,16 @@ BLOCKH=`$GETHEXEC 'eth.getBlock('$BLKNBR').hash' \
         | tr a-f A-F`
 debug $BLOCKH 'eth.getBlock('$BLKNBR').hash'
 
-i=0
 for m in $*
 do
-  MAILH[$i]=`$GETHEXEC 'web3.sha3("'$m'")' \
-             | sed 's/^"0x\(.*\)"/\1/' \
-             | tr a-f A-F`
-  debug ${MAILH[$i]} $m
-  echo ibase=16\; ${MAILH[$i]}-$BLOCKH \
+  MAILH=`$GETHEXEC 'web3.sha3("'$m'")' \
+         | sed 's/^"0x\(.*\)"/\1/' \
+         | tr a-f A-F`
+  debug $MAILH $m
+  echo ibase=16\; $MAILH-$BLOCKH \
   | bc \
   | sed -e "s/-//" \
         -e "s/$/ $m/"
-  i=$[$i+1]
 done \
 | sort -n \
 | eval "$FMT"
