@@ -21,9 +21,7 @@ export BC_LINE_LENGTH=0
 export GETHEXEC="geth attach $HOME/.local/share/io.parity.ethereum/jsonrpc.ipc --exec"
 #export GETHEXEC="geth attach --exec"
 
-FMT=cat
-[ "$DEBUG" = 1 ] || FMT='sed -e s/.*\ //g'
-
+# Affiche les hashes et les deltas
 
 debug () {
 
@@ -33,6 +31,14 @@ debug () {
   fi
 }
 
+if [ "$DEBUG" = 1 ]
+then
+  FMT=cat
+else
+  FMT='sed -e s/.*\ //g'
+fi
+
+# Gestion des erreurs
 
 if [ $# -lt 3 ]
 then
@@ -47,7 +53,6 @@ then
   exit 2
 fi
 
-
 export BLKNBR=$1
 shift
 
@@ -59,11 +64,14 @@ then
   exit 3
 fi
 
+# Hash du bloc choisi
 
 BLOCKH=`$GETHEXEC 'eth.getBlock('$BLKNBR').hash' \
         | sed 's/^"0x\(.*\)"/\1/' \
         | tr a-f A-F`
 debug $BLOCKH 'eth.getBlock('$BLKNBR').hash'
+
+# Hash des emails et calcul des deltas
 
 for m in $*
 do
