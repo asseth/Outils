@@ -29,7 +29,7 @@ debug () {
 
   if [ "$DEBUG" = 1 ]
   then 
-    echo $*
+    echo $* 1>&2
   fi
 }
 
