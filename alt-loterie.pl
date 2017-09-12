@@ -43,6 +43,9 @@ $page->is_success or
 
 $blockh = $page->decoded_content;
 $blockh =~ s/.*;Hash:[^0]*0x([0-9a-f]*).*/$1/s;
+if ($blockh =~ m/</) {
+  die "Bloc $block inexistant\n";
+}
 $debug and 
     print STDERR uc $blockh, " eth.getBlock($block).hash\n";
 
