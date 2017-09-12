@@ -39,7 +39,7 @@ my $page = $ua->get ("$url/$block");
 $page->is_success or
     die ("$url/$block introuvable");
 
-# Conversion de hex en int
+# Récupération du hash du bloc
 
 $blockh = $page->decoded_content;
 $blockh =~ s/.*;Hash:[^0]*0x([0-9a-f]*).*/$1/s;
