@@ -26,7 +26,10 @@ my %delta;
 
 my $block = shift;
 
-# HTML scrapping (erk, mais évite de gérer un token d'API etherscan)
+die "Usage: $0 block# email1 email2 [emails...]\n" if 
+  (scalar @ARGV < 2);
+
+# HTML scraping (erk, mais évite de gérer un token d'API etherscan)
 
 my $ua = LWP::UserAgent->new;
 $ua->agent ("Mozilla/5.0 Gecko/20100101 Firefox/55.0");
